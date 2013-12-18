@@ -10,30 +10,12 @@ import crawl.items
 from crawl.items import cols,forum_cols,Headline,ForumColsHeadlines
 import crawl.spiders
 
-
 from ini_redis import the_redis
+from redis_operation.redis_func import forum_cols_headlines_redis_as_json
+
 def test_update(a_redis):
     a_redis.set('last_update',time.time())
 
-
-def forum_cols_headlines_redisjson(key,forum_cols_headlines):
-    '''将 ForumColsHeadlines对象持久化到redis的一个键中
-    dumps->set
-    '''
-    def serialize_fch(fch):#fch:ForumColsHeadlines
-        fch_jsonable=dict.fromkeys(fch.__dict__,[])#创建返回用的字典
-        #In [149]: dd=dict.fromkeys(fch.__dict__,[])
-        #In [150]: dd
-        #Out[150]: 
-        #{'con': [], 'eco': [], 'his': [], 'inf': [], 'int': [], 'law': [], 'let': [], 'lif': [], 'mac': [], 'man': [], 'met': [], 'nur': [], 'pha': [], 'phi': [], 'sug': [], 'wei': []}
-        for col in fch_jsonable:
-            if len(getattr(fch,'con'))>0:
-                for headline in getattr(forum_cols_headlines,col):
-                    fch_jsonable[col].append(headline.__dict__)
-        return fch_jsonable
-    
-    the_redis.set(key,json.dumps(forum_cols_headlines,default=serialize_fch))
- 
 def update_forum_cols_headlines():
     forum_cols_fores=ForumColsHeadlines()#存放预告信息
     forum_cols_news=ForumColsHeadlines()#存放新闻信息
@@ -52,6 +34,6 @@ def update_forum_cols_headlines():
     #redis中只对应两个键
     the_redis.delete('forum_cols_fores')
     the_redis.delete('forum_cols_news')
-    forum_cols_headlines_redisjson('forum_cols_fores',forum_cols_fores)
-    forum_cols_headlines_redisjson('forum_cols_news',forum_cols_news)
+    forum_cols_headlines_redis_as_json('forum_cols_fores',forum_cols_fores)
+    forum_cols_headlines_redis_as_json('forum_cols_news',forum_cols_news)
     

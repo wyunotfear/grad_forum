@@ -16,6 +16,17 @@ Created on 2013年12月17日
 
 @author: User
 '''
+def serialize_fch(fch):#fch:ForumColsHeadlines
+    fch_jsonable=dict.fromkeys(fch.__dict__,[])#创建返回用的字典
+    #In [149]: dd=dict.fromkeys(fch.__dict__,[])
+    #In [150]: dd
+    #Out[150]: 
+    #{'con': [], 'eco': [], 'his': [], 'inf': [], 'int': [], 'law': [], 'let': [], 'lif': [], 'mac': [], 'man': [], 'met': [], 'nur': [], 'pha': [], 'phi': [], 'sug': [], 'wei': []}
+    for col in fch_jsonable:
+        if len(getattr(fch,col))>0:
+            for headline in getattr(fch,col):
+                fch_jsonable[col].append(headline.__dict__)
+    return fch_jsonable
 class ForumColInfo():
     def __init__(self,forum_name='',col_name='',href=''):
         self.col_name=col_name
