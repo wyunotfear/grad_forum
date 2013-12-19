@@ -17,7 +17,12 @@ def forum_cols_headlines_redis_as_json(key,fch):
     the_redis.set(key,json.dumps(fch,default=serialize_fch))
 
 def fch_hook(dic):
+    '''In [174]: ho.__dict__.update({'title':'title'})
+    In [175]: ho.title
+    Out[175]: 'title'
+    '''
     fch=ForumColsHeadlines()
+    fch.__dict__.update(dic)
     return fch
 
 def redis_json_as_forum_cols_headlines(key):

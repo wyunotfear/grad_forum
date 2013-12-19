@@ -11,7 +11,7 @@ from crawl.items import cols,forum_cols,Headline,ForumColsHeadlines
 import crawl.spiders
 
 from ini_redis import the_redis
-from redis_operation.redis_func import forum_cols_headlines_redis_as_json
+from redis_operation.redis_om import forum_cols_headlines_redis_as_json
 
 def test_update(a_redis):
     a_redis.set('last_update',time.time())

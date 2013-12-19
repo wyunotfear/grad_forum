@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>山东大学研究生院 研究生学术论坛</title>
+
+<meta name="keywords" content="山东大学研究生院 研究生学术论坛">
+<meta name="description" content="山东大学研究生院 研究生学术论坛">
+
+<link rel="stylesheet" type="text/css" href="/static/w3c/css/basic.css">
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/static/w3c/js/slider.js"></script>
+</head>
+<body >
+<div class='forum'>
+<!-- title begin-->
+<div class='title'><span>研究生学术论坛</span></div>
+<!-- title end -->
+<!-- college news list begin -->
+{% for col in cols%}
+    <!-- one col begin-->
+        <!-- forum_col_info begin-->
+        <div class='forum_col_info'>
+            <!--col_name-->
+            <span class='forum_col_info_title_text'>{{forum_cols[col].col_name}}</span>
+            <!-- forum_info-->
+            <a href='{{forum_cols[col].href}}'><span class='forum_col_info_title_text'>{{forum_cols[col].forum_name}}</span></a>
+        </div>
+        <!-- forum_col_info end-->
+
+        <!-- col's_fores begin-->
+        {%if len(getattr(fcf,col))>0%}<!-- 存在可显示内容-->
+            {% for headline in getattr(fcf,col)%}
+                <!--title-->
+                <a href='{{ headline.href }}' title='{{headline.title}}'><span class='headline_text'>{{headline.trimed_title}}</span></a>
+                <!--date-->
+                <span class='headline_date'>{{headline.date}}</span>
+            {% end for %}
+        {%end if%}
+        <!-- col's_fores end-->
+
+        <!-- col's_news begin-->
+        {%if len(getattr(fcn,col))>0%}<!-- 存在可显示内容-->
+            {% for headline in getattr(fcn,col)%}
+                <!--title-->
+                <a href='{{ headline.href }}' title='{{headline.title}}'><span class='headline_text'>{{headline.trimed_title}}</span></a>
+                <!--date-->
+                <span class='headline_date'>{{headline.date}}</span>
+            {% end for %}
+        {%end if%}
+        <!-- col's_news end-->
+    <!-- one col end-->
+{% end for %}
+<!-- college news list end -->
+</div>
+</body></html>
