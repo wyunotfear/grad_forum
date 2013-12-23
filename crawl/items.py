@@ -22,21 +22,22 @@ def serialize_fch(fch):#fch:ForumColsHeadlines
         if len(getattr(fch,col))>0:
             col_headlines=getattr(fch,col)
             for headline in col_headlines:
-                temp_headlines=fch_jsonable[col]
-                if temp_headlines==None:
-                    temp_headlines=[]
-                temp_headlines.append(headline.__dict__)
-                fch_jsonable[col]=temp_headlines
-
+                if fch_jsonable[col]==None:
+                    fch_jsonable[col]=[]
+                fch_jsonable[col].append(headline.__dict__)
                 #print(fch_jsonable)
     return fch_jsonable
 
 class ForumColInfo():
     '''一个学院论坛信息 学院名 论坛名 论坛地址'''
-    def __init__(self,forum_name='',col_name='',href=''):
+    def __init__(self,forum_name='',col_name='',href='',\
+                 info_catalog=['fores','news']):
         self.col_name=col_name
         self.forum_name=forum_name
         self.href=href
+        
+        #存储这个学院论坛需要显示的信息 比如 预告 新闻 从而对应执行不同的爬虫
+        self.info_catalog=info_catalog
 
 class Headline():
     '''存储一条新闻的信息：标题 日期 连接'''
@@ -46,8 +47,8 @@ class Headline():
         self.href=href
         self.date=date
 class ForumColsHeadlines():
-    '''工厂 对象包含所有学院每个学院下需要显示的信息
-    多个对象可能存放同一个学院下不同的信息'''
+    '''工厂 对象包含所有学院每个学院下 ‘某一类’ 需要显示的信息
+    多个对象可能存放同一个学院下 ‘不同类’ 的信息'''
     def __init__(self):
         self.phi=[]
         self.eco=[]
@@ -65,6 +66,16 @@ class ForumColsHeadlines():
         self.nur=[]
         self.sug=[]
         self.wei=[]
+
+class ForumColsClassifiedForumColsHeadlines():
+    '''工厂 
+    一个属性存储一个 ForumColsHeadlines对象
+    只是提供一个名空间 属性和属性名通过反射添加
+    显示的时候 forum_cols字典中 ForumColInfo实例中的info_catalog属性
+    决定从这个对象中的哪几个属性去 两个点操作 以便找到相应的信息列表'''
+    def __init__(self):
+        self.forum_cols_fores=None
+        #self.forum_cols_news=None
 
 cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
         
