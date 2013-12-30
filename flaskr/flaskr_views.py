@@ -15,14 +15,15 @@ from flask import g,render_template
 import ini_redis
 from ini_redis import the_redis
 from crawl.crawls import *
-from crawl.items import cols,forum_cols,FetchedHeadlines
+from crawl.items import cols,forum_cols,catalog_name,\
+ForumColClassifiedHeadlines
 #from celeryproj.tasks import update
 #from celeryproj.celery_me import update
 
 #刷新间隔 秒
 UPDATEINTERVAL=5
 
-@flask_app.before_request
+#@flask_app.before_request
 def to_update():    
     def need_update():
     #先从g对象中获取redis连接
@@ -44,10 +45,11 @@ def to_update():
         #t=Thread(target=test_update,args=(g_redis,))
         t=Thread(target=update_forum_col_classified_headlines)
         t.start()
-
+  
 @flask_app.route('/update/')
 def update():
     update_forum_col_classified_headlines()
+    return 'update'
    
 @flask_app.route('/')
 def hello_world():
@@ -64,24 +66,22 @@ def testredis():
 
 @flask_app.route('/forum/')
 def forum():
-    hs=FetchedHeadlines()
+    to_update()
+    fetched_headlines={}
     for col in cols:
     #对每个学院字母代码 反射找到对应预告和新闻的爬虫函数并执行 
     #每个爬虫返回ForumColClassifiedHeadlines实例 
     #调用实例的save方法持久化到redis中
-        for catalog in col.catalogs:
-            key='_'.join((col.col,catalog))
-            fcch=getattr(crawl.spiders,key)()
-            the_redis.delete(key)
-            fcch.save()
-    try:
-        forum_cols_fores=redis_json_as_forum_cols_headlines('forum_cols_fores')
-        forum_cols_news=redis_json_as_forum_cols_headlines('forum_cols_news')
-        return render_template('forum.htm',fcf=forum_cols_fores,\
-                               fcn=forum_cols_news,cols=cols,forum_cols=forum_cols)
-    except Exception as e:
-        print(e)
-        forum_cols_fores=ForumColsHeadlines()
-        forum_cols_news=ForumColsHeadlines()
-        return render_template('forum.htm',fcf=forum_cols_fores,\
-                               fcn=forum_cols_news,cols=cols,forum_cols=forum_cols)
+        for catalog in forum_cols.get(col).catalogs:
+                key=':'.join((col,catalog))
+                try:
+                    fcch=ForumColClassifiedHeadlines.retrieve(key)
+                    fetched_headlines[fcch.name]=fcch.headlines
+                except Exception as e:
+                    print(e)
+                    fetched_headlines[key]=[]
+    
+    return render_template('forum.htm',fetched_headlines=fetched_headlines,\
+                           forum_cols=forum_cols,cols=cols,catalog_name=catalog_name)
+
+        

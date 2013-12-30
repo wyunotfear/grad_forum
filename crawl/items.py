@@ -16,10 +16,13 @@ import json
 import traceback
 import ini_redis
 from ini_redis import the_redis
-class FetchedHeadlines():
-    '''每个爬虫返回的ForumColClassifiedHeadlines实例 名字通过反射增加为
-    这个实例的属性
-    用来在模板中通过名字找到要显示的信息列表'''
+
+
+fetched_headlines={'col_name:catalog_name':None,}
+#每个爬虫返回的ForumColClassifiedHeadlines实例 名字通过反射增加为
+#这个字典变量的键-值
+#用来在模板中通过名字找到要显示的信息列表
+#后来没有使用这个变量 而是在 before_quest中增加的g中了
 
 class ForumColInfo():
     '''一个学院论坛信息 学院名 论坛名 论坛地址'''
@@ -50,7 +53,8 @@ class ForumColClassifiedHeadlines():
     爬取出实例 -> 类方法生成序列 -> 序列dumps为json串 ->json串存入 redis
     redis取出json串(byte) -> 解码为str -> loads为序列对象 (encoding)-> 类方法由序列到实例
     '''
-    def __init__(self,name='col_name:catalog_name',headlines=[]):
+    def __init__(self,name='col_name:catalog_name',headlines=None):
+        '''如果参数中headlines=[] 好像所有的实例都会引用这个匿名列表'''
         self.name=name
         self.headlines=headlines
     
@@ -84,6 +88,7 @@ class ForumColClassifiedHeadlines():
         dict_key=list(fcch_json_d.keys())[0]
         fcch=ForumColClassifiedHeadlines()
         fcch.name=dict_key
+        fcch.headlines=[]
         for headline_d in fcch_json_d[fcch.name]:
                 fcch.headlines.append(Headline(title=headline_d['title'],\
                                      trimed_title=headline_d['trimed_title'],\
@@ -95,7 +100,7 @@ class ForumColClassifiedHeadlines():
     def save(self):
         value=json.dumps(\
                          ForumColClassifiedHeadlines.\
-                         jsonsequence_to_instance(self.headlines)\
+                         instance_to_jsonsequence(self)\
                          )
         key=self.name
         the_redis.set(key,value)
@@ -110,15 +115,18 @@ class ForumColClassifiedHeadlines():
         except:
             traceback.print_exc()
             return None
-cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
-        
+#cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
+#cols=['phi','eco','law','let']
+cols=['con']
+
+catalog_name={'fores':'论坛预告','news':'论坛新闻'}#论坛分类信息代码对应的名称 主要用来在模板中显示
 forum_cols={
     'phi':ForumColInfo(col_name='哲学与社会发展学院',href='http://www.sps.sdu.edu.cn/sps80/list_all.php?sortid=144',forum_name='爱智论坛',col='phi',catalogs=['fores','news']),
-    'eco':ForumColInfo(col_name='经济学院',href='http://www.econ.sdu.edu.cn/yjslt/',forum_name='经济学院研究生系列学术论坛',col='eco',catalogs=['fores','news']),
-    'law':ForumColInfo(col_name='法学院',href='http://www.law.sdu.edu.cn/header_sbjy_index.site?isDto=1&beanName=catalogsPageBean&pageIndex=1&typeCode=0508&pageSize=10',forum_name='法学院独角兽研究生学术论坛',col='law',catalogs=['fores','news']),
-    'let':ForumColInfo(col_name='文学与新闻传播学院',href='http://www.lit.sdu.edu.cn/Article/ShowClass.asp?ClassID=98',forum_name='新闻传播学前沿论坛',col='let',catalogs=['fores','news']),
+    'eco':ForumColInfo(col_name='经济学院',href='http://www.econ.sdu.edu.cn/yjslt/',forum_name='经济学院研究生系列学术论坛',col='eco',catalogs=[]),
+    'law':ForumColInfo(col_name='法学院',href='http://www.law.sdu.edu.cn/header_sbjy_index.site?isDto=1&beanName=catalogsPageBean&pageIndex=1&typeCode=0508&pageSize=10',forum_name='法学院独角兽研究生学术论坛',col='law',catalogs=['news']),
+    'let':ForumColInfo(col_name='文学与新闻传播学院',href='http://www.lit.sdu.edu.cn/Article/ShowClass.asp?ClassID=98',forum_name='新闻传播学前沿论坛',col='let',catalogs=['news']),
     'his':ForumColInfo(col_name='历史文化学院',href='http://www.history.sdu.edu.cn/new/cf/',forum_name='长风讲坛',col='his',catalogs=['fores','news']),
-    'con':ForumColInfo(col_name='儒学高等研究院',href='http://www.rxgdyjy.sdu.edu.cn/article.php?classid=149',forum_name='尼山大讲堂',col='con',catalogs=['fores','news']),
+    'con':ForumColInfo(col_name='儒学高等研究院',href='http://www.rxgdyjy.sdu.edu.cn/article.php?classid=149',forum_name='尼山大讲堂',col='con',catalogs=['news']),
     'int':ForumColInfo(col_name='国际教育学院',href='http://www.cie.sdu.edu.cn/info/ShowArticle.asp?ArticleID=3685',forum_name='汉语国际教育研究生论坛',col='int',catalogs=['fores','news']),
     'man':ForumColInfo(col_name='管理学院',href='http://www.glxy.sdu.edu.cn:1503/',forum_name='管理理论前沿与研究创新研究生论坛',col='man',catalogs=['fores','news']),
     'lif':ForumColInfo(col_name='生命科学学院',href='http://www.lifestu.sdu.edu.cn/',forum_name='蕴绿潭研究生学术论坛',col='lif',catalogs=['fores','news']),
