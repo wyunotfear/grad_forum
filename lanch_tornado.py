@@ -18,6 +18,6 @@ sys.path.append(os.path.abspath('.'))
 
 tornado.options.parse_config_file("tornado_conf.py")
 http_server = HTTPServer(WSGIContainer(flask_app))
-http_server.listen(80)
+http_server.listen(8080)
 IOLoop.instance().start()
         

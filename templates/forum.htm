@@ -1,48 +1,408 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>山东大学研究生院 研究生学术论坛</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="true">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>山东大学研究生学术论坛</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="山东大学研究生院 研究生学术论坛 ">
+    <meta http-equiv="description" content="山东大学研究生院  ">
+    <link rel="stylesheet" type="text/css" href="/static/css/default.css">
+    <style media="screen, print" type="text/css">
+        <!--
+        
+        /* for NEW Highlights & News Landing page */
+        
+        .contentArea { /* 一个学院的显示区域 */
+            color: #434343;
+            padding: 10px 0px;
+            /* line-height: 1.2em;*/
+            height: auto; 
+            /*min-height: 300px;*/
+            width:780px;
+            border-bottom:solid 3px rgb(242, 237, 221);
+        }
+        .contentArea .navNews { /* 学院名和学院论坛名所在的tr*/
+            position: relative;
+            top: 0px;
+            padding-bottom: 0px;
+            width: 100%;
+        }
 
-<meta name="keywords" content="山东大学研究生院 研究生学术论坛">
-<meta name="description" content="山东大学研究生院 研究生学术论坛">
+        .contentArea .navNews p{
+            display:inline;
+        }
 
-<link rel="stylesheet" type="text/css" href="/static/w3c/css/basic.css">
+        .contentArea .navNews a.active:hover {
+            cursor: default;
+        }
 
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script type="text/javascript" src="/static/w3c/js/slider.js"></script>
+        .contentArea .navNews .newsTab{ /* 学院名或论坛名所在的td的公共样式*/
+            /*width: 88px;*/
+            height: 36px;
+            text-decoration: none;
+            font-weight:bold;
+            font-size:1.2em;
+            text-align:center;
+            margin: 10px 0px 10px 0px;    
+            padding: 0px 0px; 
+            left:0px; 
+            color: #fff;
+        }
+
+        .contentArea .navNews .inactive a{ /*学院名或论坛名 文字 鼠标放上后的变化*/
+            color: white; text-decoration:none;
+        }
+
+        .contentArea .navNews .inactive a:hover{ /*学院名或论坛名 文字 鼠标放上后的变化*/
+            /*color: red; */
+            /*text-decoration:underline;*/
+        }
+
+        .contentArea .navNews .active a{ /*学院名或论坛 文字 名鼠标放上后的变化*/
+            color: red; text-decoration:none;
+        }
+        
+        .contentArea .navNews .active a:hover{ /*学院名或论坛 文字 名鼠标放上后的变化*/
+            color: red; 
+            text-decoration:underline;
+            
+        }
+
+        .contentArea .navNews .active { /*学院名或论坛名其中一个标签的样式 */
+            background: rgb(242, 237, 221) 0px 0px repeat-x;
+            color: #000000;
+            width:60%;
+            
+        }
+
+        .contentArea .navNews .inactive{ /*学院名或论坛名其中一个标签的样式 灰渐变背景图*/
+            background: url(/static/img/greyshade.jpg) 0px 0px repeat-x;
+        }
+        
+        .newsRowTitle{ /* 每条信息的样式*/
+            width:80%;
+            padding:8px;
+            /*clear:both;*/
+            font-size:1em;
+            text-align:left;
+        }
+        .newsRowTitle a{
+            text-decoration:none;
+        }
+
+        .newsRowDate{ /* 每条信息的样式*/
+            padding:8px;
+            /*clear:both;*/
+            font-size:1em;
+            text-align:right;
+        }
+        .newsRowDate a{
+            text-decoration:none;
+        }
+        
+        ul#rowListing-highlights, ul#rowListing-highlights li {
+            list-style: none;    
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            clear:both;
+            
+        }
+
+        ul.rowListing-highlights, ul.rowListing-highlights li {
+            list-style: none;    
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            clear:both;
+            
+        }
+        
+        ul.rowListing-highlights {
+            width: 780px;
+        }
+
+
+        ul#rowListing-highlights li {
+            display: block;
+            padding: 2px 10px 2px 10px;
+            line-height:15px;
+        }
+
+        ul.rowListing-highlights li {
+            display: block;
+            padding: 2px 10px 2px 10px;
+            line-height:15px;
+        }
+
+        ul#rowListing-highlights li.divider {
+            padding: 0px 0px 0px 0px;
+            border-top:1px solid #d1d1d1;
+            line-height:5px;
+        }
+
+        ul.rowListing-highlights li.divider {
+            padding: 0px 0px 0px 0px;
+            border-top:1px solid #d1d1d1;
+            line-height:5px;
+        }
+
+        .img-highlight {
+        border:1px solid #cc0000;
+        clear:both;
+        float:left;
+        }
+
+        /* Grid */
+
+        .grid {
+          width: 780px;
+          margin: auto;
+
+        }
+
+        .grid-m1 {
+          float: left;
+          width: 0px;
+          height: 1px;
+        }
+
+        .grid-m2 {
+          float: left;
+          width: 10px;
+          height: 1px;
+        }
+
+        .grid p#datetime-Lightgray {
+        color:#A9A9A9; font-size:10px; line-height:0px; clear:both; float:none ; position:relative; 
+        }
+
+        * html .grid p#datetime-Lightgray {
+        color:#A9A9A9; font-size:10px; line-height:10px; clear:both; float:left;  position:relative;
+
+        }
+
+        -->
+    </style>
 </head>
-    <body >
-        <div class='forum'>
-            <!-- title begin-->
-            <div class='title'><span>研究生学术论坛</span></div>
-            <!-- title end -->
-            <div class='content'><!-- content begin -->
-                {% for col in cols%}<!-- 一个学院 begin-->
-                        <!-- 学院论坛名 begin-->
-                        <div class='forum_col_info'>
-                            <!--col_name-->
-                            <span class='forum_col_info_title_text'>{{forum_cols[col].col_name}}</span>
-                            <!-- forum_info-->
-                            <a href='{{forum_cols[col].href}}'><span class='forum_col_info_title_text'>{{forum_cols[col].forum_name}}</span></a>
-                        </div>
-                        <!-- 学院论坛名 end-->
 
-                        <!-- 一类论坛信息 比如预告 begin-->
-                        {%for catalog in forum_cols[col].catalogs%}<!-- 论坛内一类信息 begin-->
-                            <div class='list_block'>
-                                <div class='list_block_head'>{{catalog_name[catalog]}}</div>
-                                {%if fetched_headlines.get(':'.join( (col,catalog) ))|count>0%}<!-- 存在可显示内容-->
-                                    {% for headline in fetched_headlines.get(':'.join( (col,catalog) ))%}
-                                        <div class='line'><!--一行 begin-->
-                                            <!--title-->
-                                            <a href='{{ headline.href }}' title='{{headline.title}}'><span class='headline_text'>{{headline.trimed_title}}</span></a>
-                                            <!--date-->
-                                            <span class='headline_date'>{{headline.date}}</span>
-                                        </div><!--一行 end-->
-                                    {% endfor %}
-                                {%endif%}
+<body style="background:#ffffff;">
+    <div class="top-bg">
+        <div id="top">
+                    
+            <div class="logo">
+
+                <div class="logobg"></div>
+
+                <div class="logor">
+
+                    <div class="logo_link">
+                        <a title="" href="http://www.sdu.edu.cn/" target="_blank"><img src="/static/img/sdsy.jpg" style="margin-right:10px;"></a>
+                        <a title="" href="http://www.grad.sdu.edu.cn/default.site" target="_blank"><img src="/static/img/english.jpg"></a>
+                    </div>
+
+                    <div class="formStyle">
+
+                        <form action="/website/cms_searchContent.site" method="post">
+                            <input name="contentDto.title" class="txStyle" value="请输入搜索关键字" onfocus="clearText(this)" type="text"><input name="contentDto.isOnlyTitle" value="1" type="hidden"><input class="subStyle" value="搜索" type="submit">
+                        </form>
+                    </div>
+                </div><!--end -- div class="logor"-->
+            </div><!--end--div class="logo"-->
+
+            <div class="menubar">
+
+                <div class="menubar-left">
+                </div>
+
+                <div class="mmiddle">
+
+                    <div class="menuitemno">
+                        <a href="http://www.grad.sdu.edu.cn/default.site">首页</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+
+                        <div id="yjyjj_index">
+                            <a href="http://www.grad.sdu.edu.cn/header_yjyjj_index.site">研院概况</a>
+                        </div>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <a href="http://www.yz.sdu.edu.cn/">招生工作</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <a href="http://www.grad.sdu.edu.cn/pygzdefault.site">培养工作</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <a href="http://www.grad.sdu.edu.cn/xwgzdefault.site">学位工作</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <a href="http://www.grad.sdu.edu.cn/zzjydefault.site">在职教育</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <a href="http://www.ygb.sdu.edu.cn/">研究生工作部</a>
+                    </div>
+
+                    <div class="menuborder">
+                    </div>
+
+                    <div class="menu">
+                        <div id="pydw_index">
+                            <a href="http://www.grad.sdu.edu.cn/header_pydw_index.site">培养单位</a>
+                        </div>
+                    </div>
+                </div><!--end--div class="mmiddle"-->
+
+                <div class="menubar-right">
+                </div>
+            </div><!--end--div class="menubar"-->
+
+        </div><!--end--div id="top"-->
+    </div><!--end--div class="top-bg"-->
+    <div id="wrap">
+        <div id="container-2">
+            <div style="width:100%;font-size:16px;font-size:14px; background:#f2eddd; height:30px;"><!--位置 begin-->
+                <div style="float:left;line-height:30px;margin-left:10px;">
+                    您现在的位置: 首页-&gt; <a href="">培养工作</a>-&gt;<a href="">研究生学术论坛</a> 
+                </div>
+            </div><!--位置 end-->
+            
+            <div style="clear:both;"></div>
+            <div style="width: 100%;margin-top:20px; ">
+                <div id="sub-content" style="margin:0 auto; ">
+                    <div style="text-align: center;">
+                            
+                        <div id="newsTitle" style="font-weight: bold; margin-bottom:10px;"><!--题目 begin-->
+                            <font size="5">研究生学术论坛</font>
+                        </div><!--题目 end-->
+                        
+                        <!--一个学院 begin-->    
+                        <div class="newscontent-1" style="text-align: left; width: 100%; overflow: hidden;">
+                            
+                            <!--一个学院 begin-->
+                            {% for col in cols%}
+                            <div class="contentArea">
+                                <div class="navNews"><!--标签 begin-->
+                                    <table border="0" cellpadding="0" cellspacing="0" width=100%>
+                                        <tr valign="middle">
+                                            <td class="newsTab inactive">
+                                                <a href="#" title="{{forum_cols[col].col_name}}">
+                                                
+                                                {{forum_cols[col].col_name}}
+                                                
+                                                </a>
+                                            </td>
+                                            <td class="newsTab active" align="right">
+                                                <a href="{{forum_cols[col].href}}" title="">
+                                                    
+                                                    {{forum_cols[col].forum_name}}
+                                                
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div><!--class="navNews" 标签 end-->
+
+                                <div><!-- 内容 begin-->
+                                    <ul id="rowListing-highlights">
+                                        
+                                        {%for catalog in forum_cols[col].catalogs%}<!-- 论坛内一类信息 begin-->
+                                         
+                                        <li><!-- 一类 begin-->
+                                            <div class="grid">
+                                                <!-- 分类内容标题 比如 论坛预告-->
+                                                <a href="" target="blank">{{catalog_name[catalog]}}</a>&nbsp;
+                                                
+                                                {%if fetched_headlines.get(':'.join( (col,catalog) ))|count>0%}<!-- 存在可显示内容-->
+                                                    {% for headline in fetched_headlines.get(':'.join( (col,catalog) ))%}
+                                                    
+                                                    <table border="0" cellpadding="0" cellspacing="0" width=100%><!--一类信息 begin-->
+                                                        <tr valign="middle"><!--一条 begin-->
+                                                            <td class="newsRowTitle">
+                                                                <a href='{{ headline.href }}' title='{{headline.title}}'>
+                                                                    {{headline.trimed_title}}
+                                                                </a>
+                                                            </td>
+                                                            <td class="newsRowDate" align="right">
+                                                                {{headline.date}}
+                                                            </td>
+                                                        </tr><!--一条 end-->
+                                                        
+                                                    </table><!--一类信息 end-->
+                                                    {% endfor %}
+                                                {% endif %}
+                                                
+                                            </div>
+                                        </li><!-- 一类 end-->
+                                        
+                                        <li class="divider">&nbsp;</li><!--分割符-->
+                                        {% endfor %}<!-- 论坛内一类信息 end-->
+                                         
+                                    </ul>
+                                </div><!-- 内容 end-->
+                            </div><!-- div class="contentArea"-->
+                            {% endfor %}
+                            <!--一个学院 end-->
+
+                            
+                        </div>
+
+                        <div id="newsFoot" style="line-height: 50px;font-size:16px;">
+                            <div style="width: 100%;">
+                                页面访问次数<font style="font-weight: bold;">{{pageview}}</font>次
                             </div>
-                        {%endfor%}<!-- 论坛内一类信息 比如预告 end-->
-                {% endfor %}<!-- 一个学院 end-->
-            </div><!-- content end-->
+                        </div>
+
+                        </div>
+                    </div>
+            </div><!--end--div style="width: 100%;margin-top:20px; "-->
+        </div><!--end--div id="container-2"-->
+        
+        <div style="clear: both;"></div>
+        
+        <div id="footer">
+            <div style="clear:both;">
+            </div>
+            <div class="wz-left">
+                <a href="mailto:pgs@sdu.edu.cn" style="color:#474747;font-size:12px;" target="_blank">研院信箱&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                <a href="http://211.86.56.189/" style="color:#474747;font-size:12px;" target="_blank">旧版回顾&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                <a href="http://www.grad.sdu.edu.cn/login.jsp" style="color:#474747;font-size:12px;" target="_blank">网站管理&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                <a href="http://www.grad.sdu.edu.cn/login2.jsp" style="color:#474747;font-size:12px;" target="_blank">院内登录</a>
+            </div>
+            <div class="wz">
+                Copyright&nbsp;©&nbsp;山东大学研究生院
+                &nbsp;&nbsp; 地址:山东济南市山大南路27号 &nbsp;&nbsp;邮编：250100
+                &nbsp;&nbsp;
+                技术支持：
+                <a href="http://www.topwellsoft.com/" style="color:#474747;font-size:12px;" target="_blank">特普软件</a>
+            </div>
         </div>
+    </div><!--end--div id="wrap"-->
+    
+
 </body></html>

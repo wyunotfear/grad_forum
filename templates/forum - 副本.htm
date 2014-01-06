@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>山东大学研究生院 研究生学术论坛</title>
+
+<meta name="keywords" content="山东大学研究生院 研究生学术论坛">
+<meta name="description" content="山东大学研究生院 研究生学术论坛">
+
+<link rel="stylesheet" type="text/css" href="/static/w3c/css/basic.css">
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/static/w3c/js/slider.js"></script>
+</head>
+    <body >
+        <div class='forum'>
+            <!-- title begin-->
+            <div class='title'><span>研究生学术论坛</span></div>
+            <!-- title end -->
+            <div class='content'><!-- content begin -->
+                {% for col in cols%}<!-- 一个学院 begin-->
+                        <!-- 学院论坛名 begin-->
+                        <div class='forum_col_info'>
+                            <!--col_name-->
+                            <span class='forum_col_info_title_text'>{{forum_cols[col].col_name}}</span>
+                            <!-- forum_info-->
+                            <a href='{{forum_cols[col].href}}'><span class='forum_col_info_title_text'>{{forum_cols[col].forum_name}}</span></a>
+                        </div>
+                        <!-- 学院论坛名 end-->
+
+                        <!-- 一类论坛信息 比如预告 begin-->
+                        {%for catalog in forum_cols[col].catalogs%}<!-- 论坛内一类信息 begin-->
+                            <div class='list_block'>
+                                <div class='list_block_head'>{{catalog_name[catalog]}}</div>
+                                {%if fetched_headlines.get(':'.join( (col,catalog) ))|count>0%}<!-- 存在可显示内容-->
+                                    {% for headline in fetched_headlines.get(':'.join( (col,catalog) ))%}
+                                        <div class='line'><!--一行 begin-->
+                                            <!--title-->
+                                            <a href='{{ headline.href }}' title='{{headline.title}}'><span class='headline_text'>{{headline.trimed_title}}</span></a>
+                                            <!--date-->
+                                            <span class='headline_date'>{{headline.date}}</span>
+                                        </div><!--一行 end-->
+                                    {% endfor %}
+                                {%endif%}
+                            </div>
+                        {%endfor%}<!-- 论坛内一类信息 比如预告 end-->
+                {% endfor %}<!-- 一个学院 end-->
+            </div><!-- content end-->
+        </div>
+</body></html>

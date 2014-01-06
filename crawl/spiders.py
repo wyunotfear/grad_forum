@@ -17,7 +17,7 @@ import ini_redis
 from ini_redis import the_redis
 from crawl.items import Headline,ForumColClassifiedHeadlines
 
-LATEST=1000
+LATEST=50
 
 def phi_general_parse(soup,absolute):
         headlines=[]
@@ -304,7 +304,7 @@ def con_news():
     return ForumColClassifiedHeadlines(name='con:news',headlines=headlines)
 
 
-def man_general_parse(soup,absolute):
+def man_general_parse(soup,charset,absolute):
         #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
         headlines=[]
         
@@ -332,7 +332,8 @@ def man_general_parse(soup,absolute):
                     if interval_d<LATEST:
                         href= li.a['href']
                         title=li.a['title']
-                        trimed_title=title if len(title)<40 else title[0:41]+'...'
+                        b_title=title.encode(charset)
+                        trimed_title=title if len(b_title)<120 else title[0:51]+'...'
                         headline=Headline(href=absolute+href,\
                       title=title,date=date,\
                       trimed_title=trimed_title)
@@ -361,7 +362,7 @@ def man_news():
 
     absolute='http://www.glxy.sdu.edu.cn:1503/'
            
-    headlines=man_general_parse(news_headline_list,absolute)
+    headlines=man_general_parse(news_headline_list,charset,absolute)
     
     if len(headlines)==0:
         headline=Headline(href='',\
@@ -386,7 +387,7 @@ def man_fores():
     
     absolute='http://www.glxy.sdu.edu.cn:1503/'
            
-    headlines=man_general_parse(fores_headline_list,absolute)
+    headlines=man_general_parse(fores_headline_list,charset,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
                           title='近 '+str(LATEST)+'天没有新信息',date='',\
@@ -466,6 +467,9 @@ def lif_news():
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='lif:news',headlines=headlines)
 
+#def inf_fores():return None
+#def inf_news():return None
+
 def met_general_parse(headline_list,absolute):
         #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
         headlines=[]
@@ -537,14 +541,14 @@ def met_news():
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='met:news',headlines=headlines)
 
-def mac_general_parse(headline_list,absolute):
+def mac_general_parse(headline_list,absolute,charset):
         #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
         headlines=[]
         for li in headline_list:
             #有换行字符串出现
-            if type(li)==bs4.element.Tag:
+            if li.a != None:
                 try:
-                    date=str(li.span.string)
+                    date=str(li.find_all('td')[2].string)
                     now_st=time.localtime()#当前年月日
                     now_date=datetime.date(*now_st[:3])#转换为date对象以便做差                  
                     headline_date_st=time.strptime(date[:],'%Y-%m-%d')
@@ -553,8 +557,9 @@ def mac_general_parse(headline_list,absolute):
                     #显示多少天内的文章
                     if interval_d<LATEST:
                         href= li.a['href']
-                        title=li.a.string
-                        trimed_title=title if len(title)<40 else title[0:41]+'...'
+                        title=li.a['title']
+                        b_title=title.encode(charset)
+                        trimed_title=title if len(b_title)<120 else title[0:51]+'...'
                         headline=Headline(href=absolute+href,\
                       title=title,date=date,\
                       trimed_title=trimed_title)
@@ -562,10 +567,10 @@ def mac_general_parse(headline_list,absolute):
                     else:
                         break
                 except Exception as e:
-                    traceback.format_exc()
+                    traceback.print_exc()
         return headlines
 
-def mac_news():
+def mac_fores():
     url='http://www.mech.sdu.edu.cn/articel.php?id=72'
     charset='utf-8'
     user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
@@ -574,16 +579,18 @@ def mac_news():
     resp=urllib.request.urlopen(req)
     html_doc=(resp.read()).decode(charset)
     soup=BeautifulSoup(html_doc.strip())
-    absolute=url
+    absolute='http://www.mech.sdu.edu.cn/'
     
     #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
-    news_headline_list=soup.find_all('div')[1].div.table.tr.find_all('table')[4].find_all('tr')        
-    headlines=mac_general_parse(news_headline_list,absolute)
+    news_headline_list=soup.find_all('div')[1].div.table.tr.\
+    find_all('table')[4].find_all('tr')[3:]
+            
+    headlines=mac_general_parse(news_headline_list,absolute,charset)
     
     if len(headlines)==0:
         headline=Headline(href='',\
                           title='近 '+str(LATEST)+'天没有新信息',date='',\
                           trimed_title='近 '+str(LATEST)+'天没有新信息')
         headlines.append(headline)                  
-    return ForumColClassifiedHeadlines(name='mac:news',headlines=headlines)
+    return ForumColClassifiedHeadlines(name='mac:fores',headlines=headlines)
     

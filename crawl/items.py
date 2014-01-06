@@ -115,9 +115,8 @@ class ForumColClassifiedHeadlines():
         except:
             traceback.print_exc()
             return None
-#cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
-#cols=['phi','eco','law','let']
-cols=['met','mac']
+cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
+#cols=['phi','eco','law','let','his','con','int','man','lif','met','mac']
 
 catalog_name={'fores':'论坛预告','news':'论坛新闻'}#论坛分类信息代码对应的名称 主要用来在模板中显示
 forum_cols={
@@ -130,12 +129,12 @@ forum_cols={
     'int':ForumColInfo(col_name='国际教育学院',href='http://www.cie.sdu.edu.cn/info/ShowArticle.asp?ArticleID=3685',forum_name='汉语国际教育研究生论坛',col='int',catalogs=[]),
     'man':ForumColInfo(col_name='管理学院',href='http://www.glxy.sdu.edu.cn:1503/',forum_name='管理理论前沿与研究创新研究生论坛',col='man',catalogs=['fores','news']),
     'lif':ForumColInfo(col_name='生命科学学院',href='http://www.lifestu.sdu.edu.cn/subject/yunlvtan2013/',forum_name='蕴绿潭研究生学术论坛',col='lif',catalogs=['fores','news']),
-    'inf':ForumColInfo(col_name='信息科学与工程学院',forum_name='研究生学术论坛',col='inf',catalogs=['fores','news']),
+    'inf':ForumColInfo(col_name='信息科学与工程学院',forum_name='研究生学术论坛',col='inf',catalogs=[]),
     'met':ForumColInfo(col_name='材料科学与工程学院',href='http://www.mlsh.sdu.edu.cn/forum/',forum_name='求材学术论坛',col='met',catalogs=['fores','news']),
-    'mac':ForumColInfo(col_name='机械工程学院',href='http://www.mech.sdu.edu.cn/articel.php?id=72',forum_name='研究生学术论坛',col='mac',catalogs=['news']),
-    'pha':ForumColInfo(col_name='药学院',href='http://www.pharm.sdu.edu.cn/yjsjy/yjsxslt/',forum_name='研究生学术论坛',col='pha',catalogs=['fores','news']),
-    'nur':ForumColInfo(col_name='护理学院',href='http://nc.nursing.sdu.edu.cn/yjs/bbs.asp',forum_name='研究生学术论坛',col='nur',catalogs=['fores','news']),
-    'sug':ForumColInfo(col_name='国家糖工程技术研究中心',href='http://www.glycoeng.sdu.edu.cn/more_info.php?category_id=4&class_id=49',forum_name='糖科学论坛',col='sug',catalogs=['fores','news']),
+    'mac':ForumColInfo(col_name='机械工程学院',href='http://www.mech.sdu.edu.cn/articel.php?id=72',forum_name='研究生学术论坛',col='mac',catalogs=['fores']),
+    'pha':ForumColInfo(col_name='药学院',href='http://www.pharm.sdu.edu.cn/yjsjy/yjsxslt/',forum_name='研究生学术论坛',col='pha',catalogs=[]),
+    'nur':ForumColInfo(col_name='护理学院',href='http://nc.nursing.sdu.edu.cn/yjs/bbs.asp',forum_name='研究生学术论坛',col='nur',catalogs=[]),
+    'sug':ForumColInfo(col_name='国家糖工程技术研究中心',href='http://www.glycoeng.sdu.edu.cn/more_info.php?category_id=4&class_id=49',forum_name='糖科学论坛',col='sug',catalogs=['news']),
     'wei':ForumColInfo(col_name='威海校区',href='http://www.grad.wh.sdu.edu.cn/yjs/xueshuluntan/index.htm',forum_name='研究生学术论坛',col='wei',catalogs=['fores','news'])
 }
 
