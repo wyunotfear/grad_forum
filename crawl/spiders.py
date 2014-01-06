@@ -466,23 +466,124 @@ def lif_news():
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='lif:news',headlines=headlines)
 
-def int_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def inf_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def met_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def mac_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def pha_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def nur_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def sug_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def wei_fores():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
+def met_general_parse(headline_list,absolute):
+        #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
+        headlines=[]
+        for li in headline_list:
+            #有换行字符串出现
+            if type(li)==bs4.element.Tag:
+                try:
+                    date=str(li.span.string)
+                    now_st=time.localtime()#当前年月日
+                    now_date=datetime.date(*now_st[:3])#转换为date对象以便做差                  
+                    headline_date_st=time.strptime(date[:],'%Y-%m-%d')
+                    headline_date=datetime.date(*headline_date_st[:3])
+                    interval_d=(now_date-headline_date).days
+                    #显示多少天内的文章
+                    if interval_d<LATEST:
+                        href= li.a['href']
+                        title=li.a.string
+                        trimed_title=title if len(title)<40 else title[0:41]+'...'
+                        headline=Headline(href=absolute+href,\
+                      title=title,date=date,\
+                      trimed_title=trimed_title)
+                        headlines.append(headline)
+                    else:
+                        break
+                except Exception as e:
+                    traceback.format_exc()
+        return headlines
 
+def met_fores():
+    url='http://www.mlsh.sdu.edu.cn/forum/'
+    charset='gbk'
+    user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+    headers = { 'User-Agent' : user_agent }
+    req=urllib.request.Request(url,headers=headers)
+    resp=urllib.request.urlopen(req)
+    html_doc=(resp.read()).decode(charset)
+    soup=BeautifulSoup(html_doc.strip())
+    absolute=url
+    #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
+    fores_headline_list=soup.find(id='index_hdyg_list').div.ul.find_all('li')         
+    headlines=met_general_parse(fores_headline_list,absolute)
+    
+    if len(headlines)==0:
+        headline=Headline(href='',\
+                          title='近 '+str(LATEST)+'天没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST)+'天没有新信息')
+        headlines.append(headline)                  
+    return ForumColClassifiedHeadlines(name='met:fores',headlines=headlines)
 
+def met_news():
+    url='http://www.mlsh.sdu.edu.cn/forum/'
+    charset='gbk'
+    user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+    headers = { 'User-Agent' : user_agent }
+    req=urllib.request.Request(url,headers=headers)
+    resp=urllib.request.urlopen(req)
+    html_doc=(resp.read()).decode(charset)
+    soup=BeautifulSoup(html_doc.strip())
+    absolute=url
+    
+    #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
+    news_headline_list=soup.find(id='index_jchg_list').div.ul.find_all('li')        
+    headlines=met_general_parse(news_headline_list,absolute)
+    
+    if len(headlines)==0:
+        headline=Headline(href='',\
+                          title='近 '+str(LATEST)+'天没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST)+'天没有新信息')
+        headlines.append(headline)                  
+    return ForumColClassifiedHeadlines(name='met:news',headlines=headlines)
 
-def int_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def inf_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def met_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def mac_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def pha_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def nur_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def sug_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
-def wei_news():return [Headline(title='你好',trimed_title='你好',href='#',date='[1970-01-01]'),]
+def mac_general_parse(headline_list,absolute):
+        #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
+        headlines=[]
+        for li in headline_list:
+            #有换行字符串出现
+            if type(li)==bs4.element.Tag:
+                try:
+                    date=str(li.span.string)
+                    now_st=time.localtime()#当前年月日
+                    now_date=datetime.date(*now_st[:3])#转换为date对象以便做差                  
+                    headline_date_st=time.strptime(date[:],'%Y-%m-%d')
+                    headline_date=datetime.date(*headline_date_st[:3])
+                    interval_d=(now_date-headline_date).days
+                    #显示多少天内的文章
+                    if interval_d<LATEST:
+                        href= li.a['href']
+                        title=li.a.string
+                        trimed_title=title if len(title)<40 else title[0:41]+'...'
+                        headline=Headline(href=absolute+href,\
+                      title=title,date=date,\
+                      trimed_title=trimed_title)
+                        headlines.append(headline)
+                    else:
+                        break
+                except Exception as e:
+                    traceback.format_exc()
+        return headlines
+
+def mac_news():
+    url='http://www.mech.sdu.edu.cn/articel.php?id=72'
+    charset='utf-8'
+    user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+    headers = { 'User-Agent' : user_agent }
+    req=urllib.request.Request(url,headers=headers)
+    resp=urllib.request.urlopen(req)
+    html_doc=(resp.read()).decode(charset)
+    soup=BeautifulSoup(html_doc.strip())
+    absolute=url
+    
+    #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
+    news_headline_list=soup.find_all('div')[1].div.table.tr.find_all('table')[4].find_all('tr')        
+    headlines=mac_general_parse(news_headline_list,absolute)
+    
+    if len(headlines)==0:
+        headline=Headline(href='',\
+                          title='近 '+str(LATEST)+'天没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST)+'天没有新信息')
+        headlines.append(headline)                  
+    return ForumColClassifiedHeadlines(name='mac:news',headlines=headlines)
     
