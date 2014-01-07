@@ -116,13 +116,13 @@ class ForumColClassifiedHeadlines():
             traceback.print_exc()
             return None
 cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
-#cols=['phi','eco','law','let','his','con','int','man','lif','met','mac']
+#cols=['phi','man','sug']
 
 catalog_name={'fores':'论坛预告','news':'论坛新闻'}#论坛分类信息代码对应的名称 主要用来在模板中显示
 forum_cols={
     'phi':ForumColInfo(col_name='哲学与社会发展学院',href='http://www.sps.sdu.edu.cn/sps80/list_all.php?sortid=144',forum_name='爱智论坛',col='phi',catalogs=['fores','news']),
     'eco':ForumColInfo(col_name='经济学院',href='http://www.econ.sdu.edu.cn/yjslt/',forum_name='经济学院研究生系列学术论坛',col='eco',catalogs=[]),
-    'law':ForumColInfo(col_name='法学院',href='http://www.law.sdu.edu.cn/header_sbjy_index.site?isDto=1&beanName=catalogsPageBean&pageIndex=1&typeCode=0508&pageSize=10',forum_name='法学院独角兽研究生学术论坛',col='law',catalogs=['news']),
+    'law':ForumColInfo(col_name='法学院',href='http://www.law.sdu.edu.cn/header_sbjy_index.site?isDto=1&beanName=catalogPageBean&pageIndex=1&typeCode=0508&pageSize=10',forum_name='法学院独角兽研究生学术论坛',col='law',catalogs=['news']),
     'let':ForumColInfo(col_name='文学与新闻传播学院',href='http://www.lit.sdu.edu.cn/Article/ShowClass.asp?ClassID=98',forum_name='新闻传播学前沿论坛',col='let',catalogs=['news']),
     'his':ForumColInfo(col_name='历史文化学院',href='http://www.history.sdu.edu.cn/new/cf/',forum_name='长风讲坛',col='his',catalogs=['fores','news']),
     'con':ForumColInfo(col_name='儒学高等研究院',href='http://www.rxgdyjy.sdu.edu.cn/article.php?classid=149',forum_name='尼山大讲堂',col='con',catalogs=['news']),
