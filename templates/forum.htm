@@ -344,7 +344,7 @@
                                                     <table border="0" cellpadding="0" cellspacing="0" width=100%><!--一类信息 begin-->
                                                         <tr valign="middle"><!--一条 begin-->
                                                             <td class="newsRowTitle">
-                                                                <a href='{{ headline.href }}' title='{{headline.title}}'>
+                                                                <a href='{{ headline.href }}' title='{{headline.title}}' target="_blank">
                                                                     {{headline.trimed_title}}
                                                                 </a>
                                                             </td>
@@ -372,9 +372,9 @@
                             
                         </div>
 
-                        <div id="newsFoot" style="line-height: 50px;font-size:16px;">
+                        <div id="newsFoot" style="line-height: 50px;font-size:8px;">
                             <div style="width: 100%;">
-                                页面访问次数<font style="font-weight: bold;">{{pageview}}</font>次
+                                <b>PV:&nbsp</b>&nbsp<font style="font-weight: bold;">{{pageview}}</font>
                             </div>
                         </div>
 

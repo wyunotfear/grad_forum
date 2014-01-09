@@ -21,16 +21,31 @@ def update_forum_col_classified_headlines():
     for col in cols:
         #对每个学院字母代码 反射找到对应预告和新闻的爬虫函数并执行 
         #每个爬虫返回ForumColClassifiedHeadlines实例 
-        #调用实例的save方法持久化到redis中
-        try:
-            for catalog in forum_cols.get(col).catalogs:
+        #调用实例的save方法持久化到redis中 
+        for catalog in forum_cols.get(col).catalogs:
+            try:
                 spider='_'.join((col,catalog))
                 key=':'.join((col,catalog))
                 fcch=getattr(crawl.spiders,spider)()
                 the_redis.delete(key)
                 fcch.save()
-        except:
-            print('error when dealing:'+col)
-            traceback.print_exc()
+            except:
+                print('error when dealing:'+col+':'+catalog)
+                traceback.print_exc()
 
-    
+def update_one_col_classified_headlines(col,catalog):
+    '''
+    更新一个学院的一个栏目 格式 col:catalog
+    对每个学院字母代码 反射找到对应预告和新闻的爬虫函数并执行 
+    每个爬虫返回ForumColClassifiedHeadlines实例 
+    调用实例的save方法持久化到redis中
+    '''
+    try:
+        spider='_'.join((col,catalog))
+        key=':'.join((col,catalog))
+        fcch=getattr(crawl.spiders,spider)()
+        the_redis.delete(key)
+        fcch.save()
+    except:
+        print('error when dealing:'+col+":"+catalog)
+        traceback.print_exc()

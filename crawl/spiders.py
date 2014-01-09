@@ -41,7 +41,10 @@ def phi_general_parse(soup,absolute):
             if interval_d<LATEST_DEFAULT.interval_d:
                 title=li.a.string
                 trimed_title=title if len(title)<40 else title[0:41]+'...'
-                headline=Headline(href=absolute+li.a['href'],\
+                href=li.a['href']
+                headline=Headline(href=absolute+href \
+                                  if href.startswith('http')==False\
+                                  else href,\
                                   title=title,date=li.span.string,\
                                   trimed_title=trimed_title)
                 headlines.append(headline)
@@ -111,9 +114,12 @@ def law_general_parse(soup,absolute):
                 if interval_d<LATEST_DEFAULT.interval_d:
                     title=li.find(style="float:left").a['title']
                     trimed_title=title if len(title)<40 else title[0:41]+'...'
-                    headline=Headline(href=absolute+li.a['href'],\
-                  title=title,date=date,\
-                  trimed_title=trimed_title)
+                    href=li.a['href']
+                    headline=Headline(href=absolute+href \
+                                  if href.startswith('http')==False\
+                                  else href,\
+                                  title=title,date=date,\
+                                  trimed_title=trimed_title)
                     headlines.append(headline)
                 else:
                     break
@@ -159,9 +165,11 @@ def let_general_parse(soup,absolute):
                         href=li.find_all('a')[1]['href']
                         title=li.find_all('a')[1].string
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('http')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -209,9 +217,11 @@ def his_general_parse(soup,absolute):
                         href= li.a['href']
                         title=li.a['title']
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=(absolute+href \
+                                          if href.startswith('http')==False \
+                                          else href),\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -279,9 +289,11 @@ def con_general_parse(soup,absolute):
                         href= li.a['href']
                         title=li.a.string.strip()
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -340,9 +352,11 @@ def man_general_parse(soup,charset,absolute):
                         title=li.a['title']
                         b_title=title.encode(charset)
                         trimed_title=title if len(b_title)<120 else title[0:51]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -420,9 +434,11 @@ def lif_general_parse(headline_list,absolute):
                         title_raw=li.a['title']
                         title=title_raw[:li.a['title'].index('\n')]
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -494,9 +510,11 @@ def met_general_parse(headline_list,absolute):
                         href= li.a['href']
                         title=li.a.string
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -566,9 +584,11 @@ def mac_general_parse(headline_list,absolute,charset):
                         title=li.a['title']
                         b_title=title.encode(charset)
                         trimed_title=title if len(b_title)<120 else title[0:51]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -635,9 +655,11 @@ def sug_general_parse(headline_list,absolute,charset):
                         
                         b_title=title.encode(charset)
                         trimed_title=title if len(b_title)<120 else title[0:51]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break
@@ -697,9 +719,11 @@ def wei_general_parse(headline_list,absolute,charset):
                         title=li.a['title']
                         b_title=title.encode(charset)
                         trimed_title=title if len(b_title)<120 else title[0:51]+'...'
-                        headline=Headline(href=absolute+href,\
-                      title=title,date=date,\
-                      trimed_title=trimed_title)
+                        headline=Headline(href=absolute+href \
+                                          if href.startswith('href')==False \
+                                          else href,\
+                                          title=title,date=date,\
+                                          trimed_title=trimed_title)
                         headlines.append(headline)
                     else:
                         break

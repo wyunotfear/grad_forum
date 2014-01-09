@@ -51,10 +51,26 @@ def to_update():
         t.start()
 
   
+@flask_app.route('/updating/')
+def updating():
+    t=Thread(target=update_forum_col_classified_headlines)
+    t.start()
+    return 'updating'
+
+
+#仅在开发时启用 用于阻塞更新
 @flask_app.route('/update69368/')
 def update():
     update_forum_col_classified_headlines()
-    return 'update'
+    return 'update finished'
+
+#用于阻塞更新个别学院的个别栏目如
+#http://localhost:8080/his:fores/
+@flask_app.route('/<col>:<catalog>/')
+def update_cc(col,catalog):
+    update_one_col_classified_headlines(col,catalog)
+    return 'update finished'
+
 
 '''
 @flask_app.route('/')
