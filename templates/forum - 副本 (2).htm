@@ -336,7 +336,7 @@
                                         <li><!-- 一类 begin-->
                                             <div class="grid">
                                                 <!-- 分类内容标题 比如 论坛预告-->
-                                                <a href="" target="blank"><b>{{catalog_name[catalog]}}</b></a>&nbsp;
+                                                <a href="" target="blank">{{catalog_name[catalog]}}</a>&nbsp;
                                                 
                                                 {%if fetched_headlines.get(':'.join( (col,catalog) ))|count>0%}<!-- 存在可显示内容-->
                                                     {% for headline in fetched_headlines.get(':'.join( (col,catalog) ))%}

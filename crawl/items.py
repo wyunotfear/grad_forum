@@ -116,7 +116,7 @@ class ForumColClassifiedHeadlines():
             traceback.print_exc()
             return None
 cols=['phi','eco','law','let','his','con','int','man','lif','inf','met','mac','pha','nur','sug','wei']
-#cols=['phi','man','sug']
+#cols=['phi','sug','wei']
 
 catalog_name={'fores':'论坛预告','news':'论坛新闻'}#论坛分类信息代码对应的名称 主要用来在模板中显示
 forum_cols={

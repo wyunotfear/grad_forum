@@ -17,9 +17,13 @@ import ini_redis
 from ini_redis import the_redis
 from crawl.items import Headline,ForumColClassifiedHeadlines
 
-LATEST_2=10
-LATEST_2=30
-LATEST_3=60
+class Latest():
+    def __init__(self,interval_d=45,info_d='',info_postfix='期'):
+        self.interval_d=interval_d
+        self.info_d=info_d
+        self.info_postfix=info_postfix
+
+LATEST_DEFAULT=Latest()
 
 def phi_general_parse(soup,absolute):
         headlines=[]
@@ -34,7 +38,7 @@ def phi_general_parse(soup,absolute):
             headline_date=datetime.date(*headline_date_st[:3])
             interval_d=(now_date-headline_date).days
             #显示多少天内的文章
-            if interval_d<LATEST_2:
+            if interval_d<LATEST_DEFAULT.interval_d:
                 title=li.a.string
                 trimed_title=title if len(title)<40 else title[0:41]+'...'
                 headline=Headline(href=absolute+li.a['href'],\
@@ -59,8 +63,8 @@ def phi_fores():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)          
     return ForumColClassifiedHeadlines(name='phi:fores',headlines=headlines)
 
@@ -78,8 +82,8 @@ def phi_news():
     headlines=phi_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='phi:news',headlines=headlines)
 
@@ -104,7 +108,7 @@ def law_general_parse(soup,absolute):
                 headline_date=datetime.date(*headline_date_st[:3])
                 interval_d=(now_date-headline_date).days
                 #显示多少天内的文章
-                if interval_d<LATEST_2:
+                if interval_d<LATEST_DEFAULT.interval_d:
                     title=li.find(style="float:left").a['title']
                     trimed_title=title if len(title)<40 else title[0:41]+'...'
                     headline=Headline(href=absolute+li.a['href'],\
@@ -128,8 +132,8 @@ def law_news():
     headlines=law_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                   
     return ForumColClassifiedHeadlines(name='law:news',headlines=headlines)
 def law_fores():return None
@@ -151,7 +155,7 @@ def let_general_parse(soup,absolute):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href=li.find_all('a')[1]['href']
                         title=li.find_all('a')[1].string
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
@@ -179,8 +183,8 @@ def let_news():
     headlines=let_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='let:news',headlines=headlines)
 def let_fores():return None
@@ -201,7 +205,7 @@ def his_general_parse(soup,absolute):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title=li.a['title']
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
@@ -229,8 +233,8 @@ def his_fores():
     headlines=his_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='his:fores',headlines=headlines)
 
@@ -248,8 +252,8 @@ def his_news():
     headlines=his_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='his:news',headlines=headlines)
 
@@ -271,7 +275,7 @@ def con_general_parse(soup,absolute):
                     interval_d=(now_date-headline_date).days
                     #print(interval_d)
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title=li.a.string.strip()
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
@@ -300,8 +304,8 @@ def con_news():
     headlines=con_general_parse(soup,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='con:news',headlines=headlines)
 
@@ -331,7 +335,7 @@ def man_general_parse(soup,charset,absolute):
                     interval_d=(now_date-headline_date).days
                     #print(interval_d)
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title=li.a['title']
                         b_title=title.encode(charset)
@@ -368,8 +372,8 @@ def man_news():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='man:news',headlines=headlines)
 
@@ -392,8 +396,8 @@ def man_fores():
     headlines=man_general_parse(fores_headline_list,charset,absolute)
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='man:fores',headlines=headlines)
 
@@ -411,7 +415,7 @@ def lif_general_parse(headline_list,absolute):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title_raw=li.a['title']
                         title=title_raw[:li.a['title'].index('\n')]
@@ -442,8 +446,8 @@ def lif_fores():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='lif:fores',headlines=headlines)
 
@@ -464,8 +468,8 @@ def lif_news():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='lif:news',headlines=headlines)
 
@@ -486,7 +490,7 @@ def met_general_parse(headline_list,absolute):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title=li.a.string
                         trimed_title=title if len(title)<40 else title[0:41]+'...'
@@ -516,8 +520,8 @@ def met_fores():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='met:fores',headlines=headlines)
 
@@ -538,8 +542,8 @@ def met_news():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='met:news',headlines=headlines)
 
@@ -557,7 +561,7 @@ def mac_general_parse(headline_list,absolute,charset):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         title=li.a['title']
                         b_title=title.encode(charset)
@@ -591,8 +595,8 @@ def mac_fores():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='mac:fores',headlines=headlines)
 
@@ -624,7 +628,7 @@ def sug_general_parse(headline_list,absolute,charset):
                     headline_date=datetime.date(*headline_date_st[:3])
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
                         href= li.a['href']
                         
                         title=deep_crawl(href,charset)
@@ -661,26 +665,34 @@ def sug_news():
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='sug:news',headlines=headlines)
 
 def wei_general_parse(headline_list,absolute,charset):
         #rp=re.compile(r'\d\d\d\d-\d\d-\d\d')
         headlines=[]
+        timestr_separator_rp=re.compile(r'[年月日]')
         for li in headline_list:
             #有换行字符串出现
             if li.a != None:
                 try:
-                    date=str(li.find_all('td')[2].string)
+                    date_str=str(li.span.string)
                     now_st=time.localtime()#当前年月日
                     now_date=datetime.date(*now_st[:3])#转换为date对象以便做差                  
-                    headline_date_st=time.strptime(date[:],'%Y-%m-%d')
-                    headline_date=datetime.date(*headline_date_st[:3])
+                    timeinfo_str_list=timestr_separator_rp.split(date_str)
+                    timeinfo_int_list=[ int(i) \
+                                       for i in timeinfo_str_list[:3] ]
+                    headline_date=datetime.\
+                    date(* timeinfo_int_list )
+                    
                     interval_d=(now_date-headline_date).days
                     #显示多少天内的文章
-                    if interval_d<LATEST_2:
+                    if interval_d<LATEST_DEFAULT.interval_d:
+                        #转换为 '-'为分隔符的显示型式
+                        date=headline_date.strftime('%Y-%m-%d')
+
                         href= li.a['href']
                         title=li.a['title']
                         b_title=title.encode(charset)
@@ -711,15 +723,13 @@ def wei_fores():
     soup,absolute,charset=wei_same_page()
     #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
     content_table=soup.find_all('table')[7]
-    news_headline_list=soup.find_all('div')[1].div.table.tr.\
-    find_all('table')[4].find_all('tr')[3:]
-            
-    headlines=wei_general_parse(news_headline_list,absolute,charset)
+    fores_headline_list=content_table.find_all('tr')[4:10] 
+    headlines=wei_general_parse(fores_headline_list,absolute,charset)
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
     return ForumColClassifiedHeadlines(name='wei:fores',headlines=headlines)
 
@@ -727,14 +737,15 @@ def wei_news():
     soup,absolute,charset=wei_same_page()
     #由于两个部分在同一个页面 只能解析好文章列表后传给通用解析函数
     content_table=soup.find_all('table')[7]
-    news_headline_list=soup.find_all('div')[1].div.table.tr.\
-    find_all('table')[4].find_all('tr')[3:]
-            
+    
+    #好像是在上面新闻的最后一条内部增加了一个table 而不是和上面的table平级
+    sub_content_table=content_table.find_all('tr')[12]
+    news_headline_list=sub_content_table.td.find_all('tr')[2:-2]            
     headlines=wei_general_parse(news_headline_list,absolute,charset)
     
     if len(headlines)==0:
         headline=Headline(href='',\
-                          title='近 '+str(LATEST_2)+'天没有新信息',date='',\
-                          trimed_title='近 '+str(LATEST_2)+'天没有新信息')
+                          title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息',date='',\
+                          trimed_title='近 '+str(LATEST_DEFAULT.info_d)+str(LATEST_DEFAULT.info_postfix)+'没有新信息')
         headlines.append(headline)                  
-    return ForumColClassifiedHeadlines(name='wei:fores',headlines=headlines)  
+    return ForumColClassifiedHeadlines(name='wei:news',headlines=headlines)  
