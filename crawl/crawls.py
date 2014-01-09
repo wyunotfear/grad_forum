@@ -4,6 +4,7 @@ Created on 2013年12月17日
 
 @author: User
 '''
+import traceback
 import time
 import json
 import crawl.items
@@ -21,11 +22,15 @@ def update_forum_col_classified_headlines():
         #对每个学院字母代码 反射找到对应预告和新闻的爬虫函数并执行 
         #每个爬虫返回ForumColClassifiedHeadlines实例 
         #调用实例的save方法持久化到redis中
-        for catalog in forum_cols.get(col).catalogs:
-            spider='_'.join((col,catalog))
-            key=':'.join((col,catalog))
-            fcch=getattr(crawl.spiders,spider)()
-            the_redis.delete(key)
-            fcch.save()
+        try:
+            for catalog in forum_cols.get(col).catalogs:
+                spider='_'.join((col,catalog))
+                key=':'.join((col,catalog))
+                fcch=getattr(crawl.spiders,spider)()
+                the_redis.delete(key)
+                fcch.save()
+        except:
+            print('error when dealing:'+col)
+            traceback.print_exc()
 
     

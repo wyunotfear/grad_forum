@@ -7,4 +7,5 @@ Created on 2013年12月17日
 import redis
 the_redis=redis.StrictRedis(host='210.44.220.141',port=6379,db=0)
 #the_redis=redis.StrictRedis(host='127.0.0.1',port=6379,db=0)
+
         

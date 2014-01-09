@@ -21,12 +21,8 @@ ForumColClassifiedHeadlines
 #from celeryproj.celery_me import update
 
 #刷新间隔 秒
-UPDATEINTERVAL=3600
+UPDATEINTERVAL=5
 
-
-#发现每次静态文件也会调用这个标注下的方法 不用这种方式
-#话说flask官方文旦用这种方式 和关闭打开sqlite连接 如果页面本身静态文件很多
-#真是很浪费
 #@flask_app.before_request
 def to_update():    
     def need_update():
@@ -49,14 +45,12 @@ def to_update():
         #t=Thread(target=test_update,args=(g_redis,))
         t=Thread(target=update_forum_col_classified_headlines)
         t.start()
-
   
-@flask_app.route('/update69368/')
+@flask_app.route('/update/')
 def update():
     update_forum_col_classified_headlines()
     return 'update'
-
-'''
+   
 @flask_app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -69,7 +63,6 @@ def test_template():
 def testredis():
     return render_template('basic.html',\
                            test=the_redis.get('last_update'))
-'''
 
 @flask_app.route('/forum/')
 def forum():

@@ -4,4 +4,4 @@
 @author: User
 '''
 
-log_file_prefix='log_log'
+#log_file_prefix='log_log'
